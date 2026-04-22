@@ -173,5 +173,5 @@ async function seedData() {
 
   console.log("✅ Seed data inserted");
 }
-
+await seedData();
 Deno.serve(app.fetch);
