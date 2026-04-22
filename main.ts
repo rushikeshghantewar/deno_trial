@@ -155,6 +155,23 @@ function checkToken(c) {
 // If you are putting up your own server you can either delete this
 // CRON entry or change it to be once per month with "0 0 1 * *" as
 // the CRON string
+async function seedData() {
+  const kv = await getKv();
 
+  const book = {
+    author: "Bill",
+    title: "Hamlet",
+    isbn: "42",
+  };
+
+  // Primary record
+  await kv.set(["books", "isbn", book.isbn], book);
+
+  // Secondary indexes
+  await kv.set(["books", "title", book.title], book.isbn);
+  await kv.set(["books", "author", book.author], book.isbn);
+
+  console.log("✅ Seed data inserted");
+}
 
 Deno.serve(app.fetch);
